@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CountryDemo.Models.stateviewmodel>
+
+
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        @*<div class="col-6">
+            <h2 class="text-primary">State List</h2>
+        </div>*@
+        <div class ="col-6 text-left">
+            <a asp-controller="State" asp-action="Create" class="btn btn-primary">
+           <i class="fa fa-plus"></i> &nbsp; Create New State
+            </a>
+        </div>
+
+    </div>
+
+    
+    <form method ="get" asp-action="Index1">
+        <p>
+            <input type="text" name="searching" style="width:500px;"/>
+            <input type="submit" value="Search" class="btn btn-primary"/>
+           
+        </p>
+    </form>
+
+<br />
+    @if(Model.Count() > 0)
+    {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                      CountryName
+                    </th>
+                   
+                    <th>
+                     StateName
+                    </th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var obj in Model)
+                {
+                    <tr>
+                       
+                         <td width:"50%">@obj.Country</td>
+                        <td width:"50%">@obj.stateName</td>
+                        
+                         <td class="text-center">
+                             <div class="w-75 btn-group" role="group">
+                                  <a asp-controller="State" asp-route-Id="@obj.stateID" asp-action="Edit" class="btn btn-primary mx-2">
+                                   <i class="fa fa-pen-to-square"></i> &nbsp; 
+                                  </a>
+                                    <a asp-controller="State" asp-route-Id="@obj.stateID" asp-action="Delete" class="btn btn-danger mx-2">
+                                 <i class="fa fa-trash-can"></i> &nbsp;   
+                                  </a>
+                             </div>
+                         </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Category data</p>
+    }
+</div>

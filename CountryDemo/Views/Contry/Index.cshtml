@@ -1,0 +1,160 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Data
+
+@model IEnumerable<CountryDemo.Models.Country>
+
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+
+@*@{
+    Pagination pagination = new Pagination();
+
+    int pageNo = 0;
+
+    if (ViewBag.Pagination != null)
+    {
+        pagination = ViewBag.Pagination;
+        pageNo = pagination.CurrentPage;
+    }
+}*@
+<div class="container p-3">
+    <div class="row pt-4">
+        @*<div class="col-6">
+            <h2 class="text-primary">Country List</h2>
+            </div>*@
+        <div class="col-6 text-left">
+            <a asp-controller="Contry" asp-action="Create" class="btn btn-primary">
+                <i class="fa fa-plus"></i> &nbsp; Create New Country
+            </a>
+@*
+            <form method="post" asp-controller="Contry" asp-action="Export">
+                <input type="submit" value="Export" />
+            </form>
+             <button id="btnPdf">Generate Pdf</button>
+            <a id="btnPdf" class="btn btn-primary">Generat Pdf</a>*@
+
+        </div>
+
+    </div>
+
+
+    <form method="get" asp-action="Index">
+        <p>
+            @*<input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+                <input type="submit" value="Search" class="btn btn-primary" /> *@
+            <input type="text" name="searching" style="width:500px;" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+
+        </p>
+    </form>
+    <br />
+
+
+    @if (Model.Count() > 0)
+    {
+        <div>
+            <table id="parentdiv" class="display nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>
+                            CountryName
+                        </th>
+                        <th>
+                           
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <td width:"50%">@obj.CountryName</td>
+
+                            <td class="text-center">
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-controller="Contry" asp-route-Id="@obj.Id" asp-action="Edit" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-pen-to-square"></i> &nbsp;
+                                    </a>
+                                    <a asp-controller="Contry" asp-route-Id="@obj.Id" asp-action="Delete" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash-can"></i> &nbsp;
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+      @*  <div class="" container>
+            @if (pagination.TotalPages > 0)
+            {
+                <ul class="pagination justify-content-end">
+
+                    @if (pagination.CurrentPage > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-controller="Contry" asp-action="Index" asp-route-pg="1"> First </a>
+                        </li>
+
+                        <li>
+                            <a class="page-link" asp-controller="Contry" asp-action="Index" asp-route-pg="@(pagination.CurrentPage - 1)"> Pervious </a>
+                        </li>
+                    }
+
+
+                    @for (var pge = pagination.StartPage; pge <= pagination.EndPage; pge++)
+                    {
+                        <li class="page-item @(pge == pagination.CurrentPage ? "active" : "")">
+                            <a class="page-link" asp-controller="Contry" asp-action="Index" asp-route-pg="@pge"> @pge </a>
+                        </li>
+                    }
+                    @if (pagination.CurrentPage < pagination.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-controller="Contry" asp-action="Index" asp-route-pg="@(pagination.CurrentPage + 1)"> Next </a>
+                        </li>
+
+                        <li>
+                            <a class="page-link" asp-controller="Contry" asp-action="Index" asp-route-pg="@(pagination.TotalPages)"> Last </a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+*@
+
+    }
+
+    else
+    {
+        <p>No Country data</p>
+    }
+</div>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+     $('#parentdiv').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+       'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+    });
+  });
+
+
+</script>
